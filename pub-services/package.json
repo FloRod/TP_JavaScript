@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha **/*.spec.js",
     "start": "node index.js"
   },
   "keywords": [],
@@ -12,5 +12,9 @@
   "license": "ISC",
   "dependencies": {
     "moments": "0.0.2"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^3.5.3"
   }
 }
