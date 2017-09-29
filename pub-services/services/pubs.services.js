@@ -21,7 +21,7 @@ function listOpenPubs(today) {
         return (item.openDays.includes(today)); //&& (item.openHours.start <= today.hour && item.openHours.end >= today.hour));
     })
     if (! _.isEmpty(listPubs)) {
-  //      console.log(listPubs);
+        console.log(listPubs);
         return listPubs;
     }
     else {
