@@ -1,10 +1,11 @@
-var expect = require('chai').expect;
-var services = require('../services/pubs.services');
+const expect = require('chai').expect;
+const assert = require('chai').assert;
+const services = require('../services/pubs.services');
 
 describe('pubs.services', function () {
     describe('#listAllPubs()', function () {
-        it('should json throw error', function () {
-            //assert.throws(function(){services.listAllPubs()}, Error, 'Erreur : le fichier json n\'existe pas');
+        it('should be an array', function () {
+            expect(services.listAllPubs()).to.be.an('array');
         });
 
     });
@@ -12,15 +13,12 @@ describe('pubs.services', function () {
         it('listOpenPubs contains elements', function () {
             expect(services.listOpenPubs("Thursday")).that.not.is.empty;
         });
-        it('listOpenPubs contains elements', function () {
-            expect(function () {services.listOpenPubs("Tursday")}).to.throw();
+        it('should be an array', function () {
+            expect(services.listOpenPubs("Thursday")).to.be.an('array');
         });
-        // it('element listOpenPubs is object', function () {
-        //     expect(services.listOpenPubs()).that.include( ! typeof "object");
-        // });
-        // it('listOpenPubs contains elements', function () {
-        //     expect(services.listOpenPubs()).that.not.is.empty;
-        // });
+        it('listOpenPubs contains elements', function () {
+            assert(services.listOpenPubs("Sunday").length = 1);
+        });
 
     });
 });

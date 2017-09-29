@@ -1,47 +1,43 @@
-var jsonFile = require('../mocks/pubs');
-var moment = require('moment');
+const jsonFile = require('../mocks/pubs');
+const moment = require('moment');
 const _ = require('lodash');
+const Pub = require('../model/Pub');
+const Owner = require('../model/Owner');
+const OpenHours = require('../model/OpenHours');
+const Beer = require('../model/Beer');
+
+
+
+function dataRecovery() {
+    const data = jsonFile.map(function (element) {
+        const owner = new Owner(element.owner.firstName, element.owner.lastName, element.owner.mail);
+        const openHours = new OpenHours(element.openHours.start, element.openHours.end);
+        const beers = element.beers.map(function (item) {
+            return new Beer(item.type, item.name);
+        });
+        return new Pub(element.name, owner, element.openDays, openHours, beers);
+    });
+    return data;
+}
+
+
 var today = {
     day: moment().format('dddd'),
     hour: moment().format('hh')
 };
 
-
 function listAllPubs() {
-    //if ((typeof jsonFile !== undefined) || (typeof jsonFile[0] !== undefined)) {
-        return jsonFile;
-    // }
-    // else {
-    //     throwErrorJson();
-    // };
+    return dataRecovery();
 };
 
 function listOpenPubs(today) {
-    var listPubs = jsonFile.filter(function (item) {
-        return (item.openDays.includes(today)); //&& (item.openHours.start <= today.hour && item.openHours.end >= today.hour));
-    })
-    if (! _.isEmpty(listPubs)) {
-        console.log(listPubs);
-        return listPubs;
-    }
-    else {
-        throwErrorList();
-    };
+    const listPubs = listAllPubs().filter(item => item.openDays.includes(today));
+    //&& (item.openHours.start <= today.hour && item.openHours.end >= today.hour));
+    console.log(listPubs);
+    return listPubs;
 };
 
+//console.log(listAllPubs());
+//listOpenPubs('Tuesday');
 
-function throwErrorList() {
-    throw new Error('Erreur : la liste de Pubs est vide');
-};
-
-function throwErrorJson() {
-    throw new Error('Erreur : le fichier json n\'existe pas');
-}
-
-
-//listOpenPubs();
-
-module.exports = {
-    listAllPubs: listAllPubs,
-    listOpenPubs: listOpenPubs
-};
+module.exports = { listAllPubs, listOpenPubs };
